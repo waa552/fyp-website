@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Will Asplin FYP Gear Design Website</title>
+</head>
+
+<body class="w3-theme-l5">
+
+    <h1 class="w3-container w3-theme-light">WA Gear Design FYP</h1>
+
+<!-- NavBar -->
+<nav class="w3-bar w3-theme-l4">
+    <a href="new.html" class="w3-button w3-bar-item w3-margin-left">New</a>
+    <a href="load.html" class="w3-button w3-bar-item w3-margin-left">Load</a>
+    <button id="printBtnFAQ" class="w3-button w3-bar-item w3-margin-left">Print</button>
+    <a href="FAQ.html" class="w3-button w3-bar-item w3-margin-left">FAQ</a>
+    <a href="contactUs.html" class="w3-button w3-bar-item w3-margin-left" onclick="printDiv('FAQ')">Contact Us</a>
+    <a href="tables.html" class="w3-button w3-bar-item w3-margin-left">Tables</a>
+</nav>
+
+<!-- FAQ -->
+<div id=FAQ class="w3-container">
+</br>
+<div class="w3-margin-left">
+        <strong> FAQs </strong> </br>
+    <div id=questions class="w3-margin-left w3-margin-top">
+        <strong>Which of the outputs are rounded?</strong> </br>
+        <div class="w3-marginleft"> The minimum and maximum ratios are rounded to 3 decimal places, and the final ration is rounded to 4</div></br>
+        <strong>Why do my gears not work with low teeth numbers?</strong></br>
+        <div class="w3-marginleft">It is recommended to set the minimum teeth value to at least 17. If it is not set, it will default to 17.</div></br>
+        <strong>What is the maximum number of teeth that can be used?</strong></br>
+        <div class="w3-marginleft"> 120 teeth in the pinion gear, and 800 teeth in the wheel gear. This gives a maximum ratio of 47 if a minimum of 17 teeth are used.</div></br>
+        <strong></strong></br>
+        <div class="w3-marginleft"></div>
+    </div>
+</div>
+</div>
+
+<div class="w3-cell">
+<button type="button" class="collapsible w3-button w3-theme-l4">Open Collapsible</button>
+<div class="content"><p>ihuasbgd</p></div>
+</div>
+<div class="w3-cell">
+<button type="button" class="collapsible w3-button w3-theme-l4">Open Collapsible</button>
+<div class="content"><p>asdshd</p></div>
+</div>  
+
+<script type=text/javascript src=functions.js></script>
+<script type=text/javascript src=run.js></script>
+<script type=text/javascript src=data.js></script>
+
+</body>
+</html>
+
+<!--  onclick="printDiv('FAQ')" -->

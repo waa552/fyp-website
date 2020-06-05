@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>WA Gear Design FYP</title>
+</head>
+
+<body class="w3-theme-l5">
+    <h1 class="w3-container w3-theme-light">WA Gear Design FYP</h1>
+
+<!-- NavBar -->
+<nav class="w3-bar w3-theme-l4">
+    <a href="new.html" class="w3-button w3-bar-item w3-margin-left">New</a>
+    <a href="load.html" class="w3-button w3-bar-item w3-margin-left">Load</a>
+    <button id="printBtnNew" class="w3-button w3-bar-item w3-margin-left" onclick="printDiv('results')">Print</button>
+    <a href="FAQ.html" class="w3-button w3-bar-item w3-margin-left">FAQ</a>
+    <a href="contactUs.html" class="w3-button w3-bar-item w3-margin-left">Contact Us</a>
+    <a href="tables.html" class="w3-button w3-bar-item w3-margin-left">Tables</a>
+</nav>
+
+<!-- <div class="w3-cell">
+    <button type="button" class="collapsible w3-button w3-theme-l4">Open Collapsible</button>
+    <div class="content"><p>ihuasbgd</p></div>
+</div> -->
+
+<!-- Input handling -->
+<div id="inputs">
+<br>
+    <div class="w3-margin-left w3-margin-bottom"><strong>Inputs</strong></div>
+        <button type="button" class="collapsible w3-button w3-block w3-left-align w3-theme-l4">Gear Geometry</button>
+        <div class="content w3-padding">
+            <label for="ratioIdeal">Ideal Ratio</label>
+            <input type="text" id="ratioIdeal" placeholder="Ideal Ratio" class="w3-border"><br>
+            <label for="ratioTolLow">Lower Ratio Tolerance</label>
+            <input type="text" id="ratioTolLow" placeholder="Lower Tolerance" class="w3-border"><br>
+            <label for="ratioTolUp">Upper Ratio Tolerance</label>
+            <input type="text" id="ratioTolUp" placeholder="Upper Tolerance" class="w3-border"><br>
+            <label for="pressureAngle">Pressure Angle</label>
+            <input type="text" id="pressureAngle" placeholder="20" class="w3-border"><br>
+            <label for="helixAngle">Helix Angle</label>
+            <input type="text" id="helixAngle" placeholder="0" class="w3-border"><br>
+            <label for="pinionShiftCoeff">Pinion Profile Shift Coefficient</label>
+            <input type="text" id="pinionShiftCoeff" placeholder="0" class="w3-border"><br>
+            <label for="wheelShiftCoeff">Wheel Profile Shift Coefficient</label>
+            <input type="text" id="wheelShiftCoeff" placeholder="0" class="w3-border"><br>
+        </div>
+        <button type="button" class="collapsible w3-button w3-block w3-left-align w3-theme-l4">Power</button>
+        <div class="content w3-padding">
+            <label for="power">Power</label>
+            <input type="text" id="power" placeholder="Power (kW)" class="w3-border"><br>
+            <label for="speed">Speed</label>
+            <input type="text" id="speed" placeholder="Speed (rpm)" class="w3-border"><br>
+            <label for="torque">Torque</label>
+            <input type="text" id="torque" placeholder="Torque (nm)" class="w3-border"><br>
+        </div>
+        <button type="button" class="collapsible w3-button w3-block w3-left-align w3-theme-l4">Centre Distance</button>
+        <div class="content w3-padding">
+            <label for="a0">Ideal Centre Distance (mm)</label>
+            <input type="text" id="a0" placeholder="Ideal Distance" class="w3-border"><br>
+            <label for="aTolLow">Lower Centre Distance Tolerance (mm)</label>
+            <input type="text" id="aTolLow" placeholder="Upper Tolerance" class="w3-border"><br>
+            <label for="aTolUp">Upper Centre Distance Tolerance (mm)</label>
+            <input type="text" id="aTolUp" placeholder="Lower Tolerance" class="w3-border"><br>
+            <label for="moduleInput">Pre-selected Module (not required)</label>
+            <input type="text" id="moduleInput" placeholder="" class="w3-border"><br>
+        </div> 
+        <button type="button" class="collapsible w3-button w3-block w3-left-align w3-theme-l4">Material</button>
+        <div class="content w3-padding">
+            <label for="materialSelection">Material</label>
+            <select id="materialSelection" name="materialSelection" class="w3-border">
+                <option value="castIron.medium">Cast Iron - Medium</option>
+                <option value="mildSteel.soft">Mild Steel - Soft</option>
+                <optgroup label="EN8">
+                <option value="EN8.norm">EN8 - norm</option>
+                <option value="EN8.HT">EN8 - Hardened, Tempered</option>
+                <option value="EN8.SH">EN8 - Surface Hardened</option>
+                </optgroup>
+                <optgroup label="EN24">
+                <option value="EN24.HT">EN24 - Hardened, Tempered</option>
+                <option value="EN24.SH">EN24 - Surface Hardened</option>
+                </optgroup>
+                <option value="EN32.CH">EN32 - Case Hardened</option>
+                <option value="EN34.CH">EN34 - Case Hardened</option>
+                <option value="EN36.CH">EN36 - Case Hardened</option>
+                <option value="EN39.CH">EN39 - Case Hardened</option>
+            </select>
+        </div>
+        <button type="button" class="collapsible w3-button w3-block w3-left-align w3-theme-l4">Finish</button>
+        <div class="content w3-padding">
+            <label for="FinishSelection">Material</label>
+            <select id="FinishSelection" name="FinishSelection" class="w3-border">
+                <option value="cut">Cut</option>
+                <option value="ground">Ground</option>
+            </select>
+        </div>
+        <button type="button" class="collapsible w3-button w3-block w3-left-align w3-theme-l4">Influence Factors - Obtain values from Tables page</button>
+        <div class="content w3-padding">
+            <label for="Ka_in">Ka</label>
+            <input type="text" id="Ka_in" default="1" class="w3-border"><br>
+            <label for="Kv_in">Kv</label>
+            <input type="text" id="Kv_in" placeholder="" class="w3-border"><br>
+            <label for="Kha_in">Kha</label>
+            <input type="text" id="Kha_in" placeholder="" class="w3-border"><br>
+            <label for="Khb_in">Khb</label>
+            <input type="text" id="Khb_in" placeholder="" class="w3-border"><br>
+            <label for="Kfa_in">Kfa</label>
+            <input type="text" id="Kfa_in" placeholder="" class="w3-border">
+        </div> 
+        <button class="w3-button w3-margin-top w3-margin-left w3-theme-l4" id="runBtn"> Run </button></div>
+    </div>
+</div>
+
+<!-- Results Display -->
+<div id="results">
+<br>
+    <div class="w3-margin-left"> <strong>Results</strong> </div>
+        <div class="w3-cell w3-padding">
+            <div id="ratioTeethWords" class="w3-cell ratio-words">
+                <div id="ratioDisp">Ideal ratio: <br>Min ratio: <br>Max ratio:</div> <br>
+                <div id="teethDisp">Pinion Teeth: <br>Wheel Teeth: <br>Final Ratio:</div>
+            </div>
+            <div id="ratioTeethNums" class="w3-cell ratio-nums">
+                <div id="ratio0Num"></div>
+                <div id="ratioMinNum"></div>
+                <div id="ratioMaxNum"></div>
+                <br>
+                <div id="pinionTeeth"></div>
+                <div id="wheelTeeth"></div>
+                <div id="ratio"></div>
+            </div>
+        </div>
+        <div class="w3-cell w3-padding">
+            <div id="moduleCentreWords" class="w3-cell module-words">
+                <div id="moduleDisp">Minimum Module:<br> Maximum Module:<br>Possible Standard Modules:</div> <br>
+                <div id="a0Disp">Ideal Centre Distance (mm):<br>Minmum Centre Distance (mm):<br>Maximum Centre Distance (mm):<br> <br> Final Centre Distance (mm):</div>
+            </div>
+            <div id="moduleCentreNums" class="w3-cell module-nums">
+                <div id="moduleMin">1</div>
+                <div id="moduleMax">2</div>
+                <div id="possibleMods">3</div>
+                <br>
+                <div id="a0Num">1</div>
+                <div id="aMin">2</div>
+                <div id="aMax">3</div>
+                <br>
+                <div id="centreDist">1</div>
+
+                <!-- <script> document.getElementById("centreDist").innerHTML = "Final Centre Distance (mm): " + centreDist.toFixed(3) </script> -->
+            </div>
+        </div>
+</div>
+
+<br>
+<footer class="w3-container w3-padding-16 w3-center w3-theme-l4">
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+        <input type="hidden" name="cmd" value="_s-xclick" />
+        <input type="hidden" name="hosted_button_id" value="85SAHXWCUXH7S" />
+        <input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+        <img alt="" border="0" src="https://www.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1" />
+    </form>        
+    <!--    <a href="#"><i class="fa fa-paypal"></i></a>    -->
+</footer>
+
+<script type=text/javascript src=functions.js></script>
+<script type=text/javascript src=run.js></script>
+<script type=text/javascript src=data.js></script>
+
+</body>
+</html>

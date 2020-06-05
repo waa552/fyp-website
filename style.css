@@ -1,0 +1,49 @@
+input {
+    font-size: 12;
+    width: 140px;
+    display: inline-block;
+    
+}
+label {
+    width: 250px;
+    display: inline-block
+}
+
+.ratio-words div {
+    width: 110px;
+}
+
+.ratio-nums div {
+    width: 60px;
+}
+
+.module-words div {
+    width: 270px;
+}
+
+.module-nums div {
+    width: 60px;
+}
+
+.collapsible {
+    outline: none;
+}
+.collapsibleimg {
+    outline: none;
+}
+
+.content {
+    display: block;
+    overflow: auto;
+}
+
+.contentimg {
+    display: none;
+    overflow: auto;
+}
+
+img {
+    width: 100%;
+    max-width: 1000px;
+    height: auto;
+}
