@@ -5,33 +5,23 @@
 //SSF = surface str fac
 //BSF = bend str fac
 
-var castIron = {
-    medium: {
-        UTS: 247000000,
-        SSF: 9,
-        BSF: 52,
-        density: 7.3e-6,
-        E: 91.7e9,
-        hardness: 175,
-    }
-}
-
 var mildSteel = {
     soft: {
         UTS: 494000000,
         SSF: 10,
         BSF: 117,
         density: 7.86e-6,
+        E: 206e3,
         hardness: {
             A: {
-                contact: 0,
-                bending: 0,
+                contact: 1.520,
+                bending: 0.386,
             },
             B: {
-                contact: 1650,
-                bending: 525,
+                contact: 250,
+                bending: 147,
             },
-            contact: 110,
+            contact: 490,
             bending: 110,
         }
     }
@@ -43,15 +33,15 @@ var EN8 = {
         SSF: 10,
         BSF: 131,
         density: 7.86e-6,
-        E: 190e9,
+        E: 206e3,
         hardness: {
             A: {
-                contact: 0,
-                bending: 0,
+                contact: 1.520,
+                bending: 0.386,
             },
             B: {
-                contact: 1650,
-                bending: 525,
+                contact: 250,
+                bending: 147,
             },
             contact: 110,
             bending: 110,
@@ -62,15 +52,15 @@ var EN8 = {
         SSF: 14,
         BSF: 169,
         density: 7.86e-6,
-        E: 190e9,
+        E: 206e3,
         hardness: {
             A: {
-                contact: 0.838,
-                bending: 0.283,
+                contact: 0.951,
+                bending: 0.286,
             },
             B: {
-                contact: 430,
-                bending: 202,
+                contact: 345,
+                bending: 167,
             },
             contact: 130,
             bending: 130,
@@ -81,18 +71,18 @@ var EN8 = {
         SSF: 19,
         BSF: 117,
         density: 7.86e-6,
-        E: 190e9,
+        E: 206e3,
         hardness: {
             A: {
-                contact: 0,
-                bending: 0,
+                contact: 0.951,
+                bending: 0.286,
             },
             B: {
-                contact: 1650,
-                bending: 525,
+                contact: 345,
+                bending: 167,
             },
-            contact: 110,
-            bending: 110,
+            contact: 130,
+            bending: 130,
         }
     }
 }
@@ -103,15 +93,15 @@ var EN24 = {
         SSF: 21,
         BSF: 231,
         density: 7.86e-6,
-        E: 190e9,
+        E: 206e3,
         hardness: {
             A: {
-                contact: 0.838,
-                bending: 0.283,
+                contact: 0.951,
+                bending: 0.286,
             },
             B: {
-                contact: 430,
-                bending: 202,
+                contact: 345,
+                bending: 167,
             },
             contact: 130,
             bending: 130,
@@ -122,18 +112,18 @@ var EN24 = {
         SSF: 35,
         BSF: 183,
         density: 7.86e-6,
-        E: 190e9,
+        E: 206e3,
         hardness: {
             A: {
-                contact: 0,
-                bending: 0,
+                contact: 0.951,
+                bending: 0.286,
             },
             B: {
-                contact: 1650,
-                bending: 525,
+                contact: 345,
+                bending: 167,
             },
-            contact: 110,
-            bending: 110,
+            contact: 130,
+            bending: 130,
         }
     }
 }
@@ -144,7 +134,7 @@ var EN32 = {
         SSF: 63,
         BSF: 276,
         density: 7.86e-6,
-        E: 190e9,
+        E: 206e3,
         hardness: {
             A: {
                 contact: 0,
@@ -155,7 +145,7 @@ var EN32 = {
                 bending: 525,
             },
             contact: 660,
-            bending: 800,
+            bending: 660,
         } 
     }
 }
@@ -166,7 +156,7 @@ var EN34 = {
         SSF: 72,
         BSF: 324,
         density: 7.86e-6,
-        E: 190e9,
+        E: 206e3,
         hardness: {
             A: {
                 contact: 0,
@@ -177,7 +167,7 @@ var EN34 = {
                 bending: 525,
             },
             contact: 660,
-            bending: 800,
+            bending: 660,
         } 
     }
 }
@@ -188,7 +178,7 @@ var EN36 = {
         SSF: 76,
         BSF: 345,
         density: 7.86e-6,
-        E: 190e9,
+        E: 206e3,
         hardness: {
             A: {
                 contact: 0,
@@ -199,7 +189,7 @@ var EN36 = {
                 bending: 525,
             },
             contact: 660,
-            bending: 800,
+            bending: 660,
         } 
     }
 }
@@ -210,7 +200,7 @@ var EN39 = {
         SSF: 90,
         BSF: 345,
         density: 7.86e-6,
-        E: 190e9,
+        E: 206e3,
         hardness: {
             A: {
                 contact: 0,
@@ -221,16 +211,11 @@ var EN39 = {
                 bending: 525,
             },
             contact: 660,
-            bending: 800,
+            bending: 660,
         } 
     }
 }
 
-//Quality
-var cut = {
-    pitch: 0,
-    profile: 0
-}
 
 //Module
 const wheelTeethArray = Array.from(Array(800).keys())

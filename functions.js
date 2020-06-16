@@ -36,6 +36,16 @@ function printDiv(divName) {
 //     }
 // }
 
+function KaGet() {
+    var a = parseFloat(document.getElementById('Ka_in').value) || 1.5
+    if (a<1) {
+        alert("Please check the Application factor table for appropriate values")
+    } else {
+        var Ka = a
+    }
+    return Ka
+}
+
 function materialGet() {
         // eval() is used as the only strings come from the drop down options
     var e = document.getElementById("materialSelection")
@@ -61,7 +71,7 @@ function tolerances(gearGeom, module, quality, sigma_hlim) {
 }
 
 function fquality() {
-    var e = document.getElementById("materialSelection")
+    var e = document.getElementById("FinishSelection")
     if (e === 'cut') {
         quality = 5
     } else {
@@ -99,8 +109,8 @@ function angleGet() {
 function ratioFind() {
     //takes input ratios and tolerances and calcs the ratio boundaries
    var ratioIdeal = parseFloat(document.getElementById('ratioIdeal').value) || 0
-   var ratioTolLow = parseFloat(document.getElementById('ratioTolLow').value) || 0
-   var ratioTolUp = parseFloat(document.getElementById('ratioTolUp').value) || 0
+   var ratioTolLow = parseFloat(document.getElementById('ratioTolLow').value) || 0.05
+   var ratioTolUp = parseFloat(document.getElementById('ratioTolUp').value) || 0.05
    
    var ratioMin = ratioIdeal - ratioTolLow
    var ratioMax = ratioIdeal + ratioTolUp
@@ -129,9 +139,10 @@ function centreDistCalc(module, z) {
     return a
 }
 
-function contactRatioTeeth(angle, a0, z, b) {
+function contactRatioTeeth(angle, a0, z) {
     var {ratio, z} = ratioCheck(z)
     var module = Math.floor(2*a0.ideal/(z.pinion+z.wheel))
+    var b = 2*module*Math.PI
     var a = centreDistCalc(module, z)
 
     var ratio = z.wheel/z.pinion
@@ -143,7 +154,8 @@ function contactRatioTeeth(angle, a0, z, b) {
         var a = centreDistCalc(module, z)
         var ratio = z.wheel/z.pinion
         var {a, z, module} = centreDistCheck(a, a0, z, ratio, module)
-        var {ratio, z} = ratioCheck(z)
+        //var {ratio, z} = ratioCheck(z)
+        var epsil = contactRatioFind(module, z, angle, gearGeom, a, b)
     }
 
     return {
@@ -152,6 +164,7 @@ function contactRatioTeeth(angle, a0, z, b) {
         module: module,
         epsil: epsil,
         ratio: ratio,
+        b: b,
     }
 }
 
@@ -177,13 +190,14 @@ function centreDistCheck(a, a0, z, ratio, module) {
     }
 }
 
-
 function ratioCheck(z) {
         //takes minimum teeth number and uses ratio boundaries to calc ideal ratio
     var ratio = z.wheel/z.pinion
     var ratioIdeal = parseFloat(document.getElementById('ratioIdeal').value)
-    var ratioMin = ratioIdeal - parseFloat(document.getElementById('ratioTolLow').value)
-    var ratioMax = ratioIdeal + parseFloat(document.getElementById('ratioTolUp').value)
+    var ratioTolLow = parseFloat(document.getElementById('ratioTolLow').value) || 0.05
+    var ratioTolUp = parseFloat(document.getElementById('ratioTolUp').value) || 0.05
+    var ratioMin = ratioIdeal - ratioTolLow
+    var ratioMax = ratioIdeal + ratioTolUp
     while (ratio <= ratioMin) {
         z.wheel++
         if (z.wheel > 800) {
@@ -211,7 +225,7 @@ function centreDistGet() {
     var aTolLow = parseFloat(document.getElementById('aTolLow').value) || 0
     var aTolUp = parseFloat(document.getElementById('aTolUp').value) || 0
 
-    document.getElementById('a0').innerHTML = Math.floor(centreDist*1000)/1000
+    document.getElementById('a0Num').innerHTML = Math.floor(centreDist*1000)/1000
     document.getElementById('aMin').innerHTML = centreDist - aTolLow
     document.getElementById('aMax').innerHTML = centreDist + aTolUp
 
@@ -277,16 +291,7 @@ function gearDims(module, z, angle, a){
     }
 }
 
-function YfFind() {}
-
-
 function contactRatioFind(module, z, angle, gearGeom, a, b) {
-    var yterm1 = Math.sqrt(((gearGeom.wheel.tip/2)**2)-((gearGeom.wheel.base/2)**2))
-    var yterm2 = Math.sqrt(((gearGeom.pinion.tip/2)**2)-((gearGeom.pinion.base/2)**2))
-    var yterm3 = a*Math.sin(angle.pressure.rad)
-    var ydenominator = Math.PI * module * Math.cos(angle.pressure.rad)
-    var epsil_y = (yterm1+yterm2-yterm3)/ydenominator
-
     var aw = Math.acos(Math.cos(angle.pressure.rad)/((2*gearGeom.y/(z.pinion+z.wheel))+1))
 
     var term1 = Math.sqrt(((gearGeom.wheel.tip/2)**2)-((gearGeom.wheel.base/2)**2))
@@ -297,6 +302,8 @@ function contactRatioFind(module, z, angle, gearGeom, a, b) {
 
     var epsil_b = b * Math.sin(angle.helix.rad)/(Math.PI*module)
 
+    var epsil_y = epsil_a + epsil_b
+
     return {
         y: epsil_y,
         a: epsil_a,
@@ -305,19 +312,19 @@ function contactRatioFind(module, z, angle, gearGeom, a, b) {
 }
 
 function powerSpeedTorqueGet() {
-    var power = parseFloat(document.getElementById('power').value) * 1000
-    var speed = parseFloat(document.getElementById('speed').value) * 0.104719755
+    var power = parseFloat(document.getElementById('power').value)
+    var speed = parseFloat(document.getElementById('speed').value)
     var torque = parseFloat(document.getElementById('torque').value)
     return {
         power: power,
         speed: speed,
-        torqe: torque
+        torqe: torque,
     }
 }
 
 function powerGet(power, speed, torque) {
     if (typeof power === 'undefined' || power === null) {
-        var power = torque*speed
+        var power = torque*speed/9549
     } else { 
         var power = power
     }
@@ -326,7 +333,7 @@ function powerGet(power, speed, torque) {
 
 function speedGet(power, speed, torque) {
     if (typeof speed === 'undefined' || speed === null) {
-        var speed = power/torque
+        var speed = 9549*power/torque
     } else {
         var speed = speed
     }
@@ -335,19 +342,18 @@ function speedGet(power, speed, torque) {
 
 function torqueGet(power, speed, torque) {
     if (typeof torque === 'undefined' || torque === null) {
-        var torque = power/speed
+        var torque = 9549*power/speed
     } else {
         var torque = torque
     }
     return torque
 }
-
 function torqueWheelf(torque, z) {
     return (torque*z.wheel/z.pinion)
 }
 
 // Option to have different pinion and wheel materials if time
-function Kv1(ratio, material, z, angle, profileShift, ground, module, gearGeom, epsil, speed, torque, tanLoad, Ka, Ky, b) {
+function Kv1(ratio, material, z, angle, profileShift, ground, module, gearGeom, epsil, speed) {
     var dMean={
         pinion: (gearGeom.pinion.root + gearGeom.pinion.tip)/2,
         wheel: (gearGeom.wheel.root + gearGeom.wheel.tip)/2
@@ -382,10 +388,10 @@ function Kv1(ratio, material, z, angle, profileShift, ground, module, gearGeom, 
     }
 }
 
-function Kv2 (ratio, material, z, angle, profileShift, ground, module, gearGeom, epsil, speed, torque, tanLoad, Ka, Ky, sigma_hlim, b, N, c_dash) {
+function Kv2 (material, module, gearGeom, epsil, tanLoad, Ka, Ky, sigma_hlim, b, N, c_dash, ffa_eff, fpb_eff) {
     // Need facewidth calced
-    if ((tanLoad*Ka*Ky)/b < 100) {
-        Ns = 0.5+0.35*(Math.sqrt(tanLoad*Ka*Ky)/(100*b))
+    if ((tanLoad.pinion*Ka*Ky)/b < 100) {
+        Ns = 0.5+0.35*(Math.sqrt(tanLoad.pinion*Ka*Ky)/(100*b))
     } else {
         Ns = 0.85
     }
@@ -416,16 +422,15 @@ function Kv2 (ratio, material, z, angle, profileShift, ground, module, gearGeom,
         }
     }
 
-    var sigma_hlim = permissibleContactStress(material)
     var {ffa_eff, fpb_eff} = tolerances(gearGeom, module, quality, sigma_hlim)
     var cay = (1/18)*((sigma_hlim/97)-18.45)**2 +1.5
         //no documentation on root relief
     var cf1 = 0
     var cf2 = 0
 
-    var Bp = c_dash * fpb_eff /(Ka*Ky*nomTanLoad/b)
-    var Bf = c_dash * ffa_eff /(Ka*Ky*nomTanLoad/b)
-    var Bk = Math.abs(1-(c_dash*(Math.min(cay+cf2, cay+cf1)))/(Ka*Ky*nomTanLoad/b))
+    var Bp = c_dash * fpb_eff /(Ka*Ky*tanLoad.pinion/b)
+    var Bf = c_dash * ffa_eff /(Ka*Ky*tanLoad.pinion/b)
+    var Bk = Math.abs(1-(c_dash*(Math.min(cay+cf2, cay+cf1)))/(Ka*Ky*tanLoad.pinion/b))
 
     if (N <= Ns) {
         var K = (cv1*Bp)+(cv2*Bf)+(cv3*Bk)
@@ -437,58 +442,80 @@ function Kv2 (ratio, material, z, angle, profileShift, ground, module, gearGeom,
     } else if (N > 1.15 && N < 1.5) {
         var Kv = ((cv5*Bp)+(cv6*Bf)+cv7) + ((((cv1*Bp)+(cv2+Bf)+(cv4*Bk)+1)-((cv5*Bp)+(cv6*Bf)+cv7))/0.35) * (1.5-N)
     }
-
+return Kv
 }
 //-0.00635*profileShift.pinion+(-0.11654*profileShift.pinion/zn1)-0.00193*profileShift.wheel+(-0.24188*profileShift.wheel/zn2)+0.00529*profileShift.pinion**2+0.00182*profileShift.wheel**2
 
 function nomTanLoad(torque, torqueWheel, gearGeom, module) {
     return {
-            pinion: 2000*torque/(gearGeom.pinion.pitch*module/2),
-            wheel: 2000*torqueWheel/(gearGeom.wheel.pitch*module/2)
+            pinion: (2000*torque)/gearGeom.pinion.pitch,
+            wheel: (2000*torqueWheel)/gearGeom.wheel.pitch,
     }
 }
 
-function permissibleContactStress(material) {
+function limitContactStress(material) {
+    console.log(material)
     sigma_hlim = material.hardness.A.contact*material.hardness.contact + material.hardness.B.contact
-    console.log(sigma_hlim)
     return sigma_hlim
 }
-function permissibleBendingStress(material) {
+function limitBendingStress(material) {
     sigma_flim = material.hardness.A.bending*material.hardness.bending + material.hardness.B.bending
-    console.log(sigma_flim)
     return sigma_flim
 }
 
-function rootBendingStress(Ka, Ky, Kv, Kfb, Kfa, b, module, tanLoad, epsil) {
-    if (epsil.a < 2 && epsil.b == 0) {
-        fepsil = 1
-    } else if (epsil.a >= 2 && epsil.b == 0) {
-        fepsil = 0.7
-    } else if (epsil.a < 2 && epsil.b < 1 && epsil.b > 0) {
-        fepsil = (1-epsil.b+(epsil.b/epsil.a))**0.5
-    } else if (epsil.a >= 2 && epsil.b < 1 && epsil.b > 0) {
-        fepsil = (((1-epsil.b)/2)+(epsil.b/epsil.a))**0.5
-    } else if (epsil.b >= 1) {
-        fepsil = epsil.a**(-0.5)
+function funcKfa(epsil, c_dash, fpb_eff, tanLoad, Ka, Ky, Kv, b) {
+    if (epsil.y <= 2) {
+        var Kfa1 = (epsil.y/2)*(0.9+0.4*(c_dash *((0.75*epsil.a)+0.25)*fpb_eff)/(tanLoad.pinion*Ka*Ky*Kv/b))
+    } else {
+        var Kfa1 = 0.9+0.4*(Math.sqrt((2*(epsil.y-1)/epsil.y))*((c_dash * ((0.75*epsil.a)+0.25)*fpb_eff)/(tanLoad.pinion*Ka*Ky*Kv/b)))
     }
+    if (epsil.y <= 2) {
+        var Kfa2 = (epsil.y/2)*(0.9+0.4*(c_dash *((0.75*epsil.a)+0.25)*fpb_eff)/(tanLoad.wheel*Ka*Ky*Kv/b))
+    } else {
+        var Kfa2 = 0.9+0.4*(Math.sqrt((2*(epsil.y-1)/epsil.y))*((c_dash * ((0.75*epsil.a)+0.25)*fpb_eff)/(tanLoad.wheel*Ka*Ky*Kv/b)))
+    }
+    return {
+        Kfa1: Kfa1,
+        Kfa2: Kfa2,
+    }
+}
 
-    //var Yf = (()/())*fepsil
-    var sigma_f0 = (tanLoad/(b*module)) * Yf * Ys * Ybeta * Yb * Ydt
-    var sigma_f = sigma_f0 * Ka * Ky * Kv * Kfb * Kfa
-    return sigma_f
+function rootBendingStress(Ka, Ky, Kv, Kfb, epsil, sigma_f0, c_dash, fpb_eff, tanLoad, b, Kfa) {
+    var sigma_f1 = sigma_f0.pinion * Ka * Ky * Kv * Kfb * Kfa.Kfa1
+    var sigma_f2 = sigma_f0.wheel * Ka * Ky * Kv * Kfb * Kfa.Kfa2
+    return {
+        pinion: sigma_f1,
+        wheel: sigma_f2,
+    }
 }
 
 function FyInterp(z, Fy) {
     for (i = 1; i<=Fy.length; i++) {
-        if (z.pinion = Fy[i-1][0]){
+        if (z.pinion > Fy[i-1][0] && z.pinion > Fy[i][0]) {
+            continue
+        } else if (z.pinion == Fy[i-1][0]) {
             var Fy1 = Fy[i-1][1]
-        } else if (z.pinion < Fy[i-1][0]) {
-            i++
-        } else {
+            break
+        } else if (z.pinion > Fy[i-1][0] && z.pinion < Fy[i][0]){
             var Fy1 = ((z.pinion-Fy[i-1][0])/(Fy[i][0]-Fy[i-1][0]))*(Fy[i][1]-Fy[i-1][1])+Fy[i-1][1]
+            break
         }
     }
-    return Fy1
+    for (i = 1; i<=Fy.length; i++) {
+        if (z.wheel > Fy[i-1][0] && z.wheel > Fy[i][0]) {
+            continue
+        } else if (z.wheel == Fy[i-1][0]) {
+            var Fy2 = Fy[i-1][1]
+            break
+        } else if (z.wheel > Fy[i-1][0] && z.wheel < Fy[i][0]){
+            var Fy2 = ((z.wheel-Fy[i-1][0])/(Fy[i][0]-Fy[i-1][0]))*(Fy[i][1]-Fy[i-1][1])+Fy[i-1][1]
+            break
+        }
+    }
+    return {
+        Fy1: Fy1,
+        Fy2: Fy2,
+    }
 }
 
 // function contactStress() {
@@ -500,9 +527,16 @@ function FyInterp(z, Fy) {
 // function toothRootStressCalc1() {
 //     rootStress = nomRootStress * Ka * Ky * Kv * Kfb * Kfa
 // }
-function toothRootStressCalc2(epsil, angle, z, Fy, ftnom, b, module) {
+
+function toothRootStressCalc2(epsil, angle, z, Fy, tanload, b, module) {
     var Yb = 1
-    var Ydt = 1
+    if (epsil.a < 2.05) {
+        var Ydt = 1
+    } else if (epsil.a > 2.05 && epsil.a < 2.5) {
+        var Ydt = -0.666*epsil.a + 2.366
+    } else {
+        var Ydt = 0.7
+    }
     if (epsil.b > 0 && epsil.b < 1) {
         epsil.b = epsil.b
     } else if (epsil.b > 1) {
@@ -520,6 +554,153 @@ function toothRootStressCalc2(epsil, angle, z, Fy, ftnom, b, module) {
     var Ys = 1
     var Yf = FyInterp(z, Fy)
     var Ybeta = (1-epsil.b*angle.helix.deg/120)/(0.25*(3*Math.cos(angle.helix.rad)+Math.cos(3*angle.helix.rad)))
-    rootStressNom = ftnom.pinion/(b * module) * Yf * Ys * Ybeta * Yb * Ydt
+
+    rootStressNom1 = (tanload.pinion/(b * module * Yf.Fy1)) * Ys * Ybeta * Yb * Ydt
+    rootStressNom2 = (tanload.wheel/(b * module * Yf.Fy2)) * Yf.Fy2 * Ys * Ybeta * Yb * Ydt
+    return {
+        pinion: rootStressNom1,
+        wheel: rootStressNom2,
+    }
 }
 
+function lifeCycles(speed) {
+    var a = parseFloat(document.getElementById('lifespan').value) || 10000
+    var b = speed
+    return (a*b)
+}
+
+function permissibleBendingStress(sigma_flim, module, speed) {
+    if (module <= 5) {
+        var Yx = 1
+    } else if (module > 5 && module <= 30) {
+        var Yx = 1.06-0.006*module
+    } else {
+        var Yx = 0.85
+    }
+    var cycles = lifeCycles(speed)
+    if (cycles <= 10000) {
+        var YNt = 2.5
+    } else if (cycles <= 3e6) {
+        var YNt = 1
+    } else {
+        var YNt = 0.85
+    }
+    
+    if (document.getElementById('critCheck').checked == 'true') {
+        var sF = sFMin.crit
+    } else {
+        var sF = sFMin.ind
+    }
+    var sigma_fp = sigma_flim * 2 * YNt * 1 * 1 * Yx / sF
+    return sigma_fp
+}
+
+function permissibleContactStress(sigma_hlim, speed, gearGeom) {
+    var cycles = lifeCycles(speed)
+    if (cycles <= 10000) {
+        var ZNt = 1.6
+    } else if (cycles <= 5e7) {
+        var ZNt = 1
+    } else {
+        var ZNt = 0.85
+    }
+    var vw = speed*Math.PI*gearGeom.pinion.pitch
+    var Czl = 0.87
+    var Czv = Czl + 0.02
+    var Zl = Czl + 4*(1-Czl)*1.25
+    var Zv = Czv + (2*(1-Czv))/Math.sqrt(0.8+32/vw)
+    var Zr = 0.88
+    var Zw = 1
+    var Zx = 1
+
+    if (document.getElementById('critCheck').checked == 'true') {
+        var sF = sFMin.crit
+    } else {
+        var sF = sFMin.ind
+    }
+
+    var sigma_hp = sigma_hlim * ZNt * Zl * Zv * Zr * Zw * Zx / sF
+    return sigma_hp
+}
+
+function bStress(Kfa, angle, a0, z, b, ratio, material, profileShift, quality, module, gearGeom, epsil, speed, tanLoad, Ka, Ky, sigma_hlim, N, c_dash, ffa_eff, fpb_eff, Fy, Kv, sigma_f0) {
+    var {a, z, module, epsil, ratio} = contactRatioTeeth(angle, a0, z, b)
+    var {N, c_dash} = Kv1(ratio, material, z, angle, profileShift, quality, module, gearGeom, epsil, speed)
+    var Kv = Kv2(material, module, gearGeom, epsil, tanLoad, Ka, Ky, sigma_hlim, b, N, c_dash, ffa_eff, fpb_eff)
+
+    var sigma_f0 = toothRootStressCalc2(epsil, angle, z, Fy, tanLoad, b, module)
+    var sigma_f = rootBendingStress(Ka, Ky, Kv, 1, epsil, sigma_f0, c_dash, fpb_eff, tanLoad, b, Kfa)
+    return sigma_f
+}
+
+function cStress(tanLoad, ratio, gearGeom, b, Ka, Ky, Kv, Kha, angle, z, material, epsil, a0, profileShift, quality, module, speed, sigma_hlim, N, c_dash, ffa_eff, fpb_eff) {
+    var {a, z, module, epsil, ratio} = contactRatioTeeth(angle, a0, z, b)
+    var {N, c_dash} = Kv1(ratio, material, z, angle, profileShift, quality, module, gearGeom, epsil, speed)
+    var Kv = Kv2(material, module, gearGeom, epsil, tanLoad, Ka, Ky, sigma_hlim, b, N, c_dash, ffa_eff, fpb_eff)
+    
+    var sigma_h = contactStress(tanLoad, ratio, gearGeom, b, Ka, Ky, Kv, 1, Kha, angle, z, material, epsil)
+    return sigma_h
+}
+
+function stressLewisEquation(b, tanLoad, Yf, module, Kv) {
+    var pinionStress = Kv*tanLoad.pinion/(b*Yf.Fy1*module)
+    var wheelStress = Kv*tanLoad.wheel/(b*Yf.Fy2*module)
+    return {
+        pinion: pinionStress,
+        wheel: wheelStress,
+    }
+}
+
+function contactStress(tanLoad, ratio, gearGeom, b, Ka, Ky, Kv, Khb, Kha, angle, z, material, epsil) {
+    var aw = Math.acos(Math.cos(angle.pressure.rad)/((2*gearGeom.y/(z.pinion+z.wheel))+1))
+    var Zh = Math.sqrt((2*Math.cos(angle.helix.rad)*Math.cos(aw))/(((1+Math.cos(angle.pressure.rad))/2)*Math.sin(aw)))
+    var M1 = Math.tan(aw)/Math.sqrt((Math.sqrt(((gearGeom.pinion.tip**2)/(gearGeom.pinion.base**2)-1))-(2*Math.PI/z.pinion))*((Math.sqrt(((gearGeom.wheel.tip**2)/(gearGeom.wheel.base**2)-1))-(epsil.a-1)*(2*Math.PI/z.wheel))))
+    var M2 = Math.tan(aw)/Math.sqrt((Math.sqrt(((gearGeom.wheel.tip**2)/(gearGeom.wheel.base**2)-1))-(2*Math.PI/z.wheel))*((Math.sqrt(((gearGeom.pinion.tip**2)/(gearGeom.pinion.base**2)-1))-(epsil.a-1)*(2*Math.PI/z.pinion))))
+    if (epsil.a > 1 && epsil.b >= 1) {
+        var Zb = Math.sqrt(1.2)
+        var Zd = Math.sqrt(1.2)
+    } else if (epsil.a > 1) {
+        if (M1 <= 1) {
+            Zb = 1
+        } else {
+            Zb = M1
+        }
+        if (M2 <= 1) {
+            Zd = 1
+        } else {
+            Zd = M2
+        }
+    } else if (epsil.a > 1 && epsil.b < 1) {
+        if (M1 <= 1) {
+            Zb = 1 + epsil.b*(Math.sqrt(1.2)-1)
+        } else {
+            Zb = M1 + epsil.b*(Math.sqrt(1.2)-M1)
+        }
+        if (M2 <= 1) {
+            Zd = 1 + epsil.b*(Math.sqrt(1.2)-1)
+        } else {
+            Zd = M2 + epsil.b*(Math.sqrt(1.2)-M2)
+        }
+    }
+    var v = 0.3
+    var Ze = Math.sqrt(material.E/(2*Math.PI*(1-v**2)))
+
+    if (angle.helix.deg == 0) {
+        var Zepsil = Math.sqrt(4-epsil.a/3)
+    } else {
+        if (epsil.b >= 1) {
+            var Zepsil = Math.sqrt(1/epsil.a)
+        } else {
+            Zepsil = Math.sqrt(((4-epsil.a)/3)*(1-epsil.b)+(epsil.b/epsil.a))
+        }
+    }
+    var Zbeta = Math.sqrt(1/Math.cos(epsil.b))
+
+    var sigma_h0 = Zh*Ze*Zepsil*Zbeta*Math.sqrt((tanLoad.pinion*ratio+tanLoad.pinion)/(gearGeom.pinion.pitch*b*ratio))
+    var sigma_h1 = Zb*sigma_h0*Math.sqrt(Ka*Ky*Kv*Khb*Kha.Kfa1)
+    var sigma_h2 = Zd*sigma_h0*Math.sqrt(Ka*Ky*Kv*Khb*Kha.Kfa2)
+    return {
+        pinion: sigma_h1,
+        wheel: sigma_h2,
+    }
+}
