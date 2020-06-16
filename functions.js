@@ -71,7 +71,7 @@ function tolerances(gearGeom, module, quality, sigma_hlim) {
 }
 
 function fquality() {
-    var e = document.getElementById("FinishSelection")
+    var e = document.getElementById("FinishSelection").value
     if (e === 'cut') {
         quality = 5
     } else {
