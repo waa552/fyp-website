@@ -17,11 +17,9 @@
 <!-- NavBar -->
 <nav class="w3-bar w3-theme-l4">
     <a href="new.html" class="w3-button w3-bar-item w3-margin-left">New</a>
-    <a href="load.html" class="w3-button w3-bar-item w3-margin-left">Load</a>
     <button id="printBtnNew" class="w3-button w3-bar-item w3-margin-left" onclick="printDiv('results')">Print</button>
-    <a href="FAQ.html" class="w3-button w3-bar-item w3-margin-left">FAQ</a>
-    <a href="contactUs.html" class="w3-button w3-bar-item w3-margin-left">Contact Us</a>
     <a href="tables.html" class="w3-button w3-bar-item w3-margin-left">Tables</a>
+    <a href="FAQ.html" class="w3-button w3-bar-item w3-margin-left">FAQ</a>
 </nav>
 
 <!-- <div class="w3-cell">
@@ -33,21 +31,21 @@
 <div id="inputs">
 <br>
     <div class="w3-margin-left w3-margin-bottom"><strong>Inputs</strong></div>
-        <button type="button" class="collapsible w3-button w3-block w3-left-align w3-theme-l4">Gear Geometry</button>
-        <div class="content w3-padding">
-            <label for="ratioIdeal">Ideal Ratio</label>
+        <button type="button" class="collapsible w3-button w3-block w3-left-align w3-theme-l4 w3-center">Gear Geometry</button>
+        <div class="content w3-padding w3-center"">
+            <label for="ratioIdeal" class="w3-left-align">Ideal Ratio</label>
             <input type="text" id="ratioIdeal" placeholder="Ideal Ratio" class="w3-border"><br>
-            <label for="ratioTolLow">Lower Ratio Tolerance</label>
+            <label for="ratioTolLow" class="w3-left-align">Lower Ratio Tolerance</label>
             <input type="text" id="ratioTolLow" placeholder="Lower Tolerance" class="w3-border"><br>
-            <label for="ratioTolUp">Upper Ratio Tolerance</label>
+            <label for="ratioTolUp" class="w3-left-align">Upper Ratio Tolerance</label>
             <input type="text" id="ratioTolUp" placeholder="Upper Tolerance" class="w3-border"><br>
-            <label for="pressureAngle">Pressure Angle</label>
+            <label for="pressureAngle" class="w3-left-align">Pressure Angle</label>
             <input type="text" id="pressureAngle" placeholder="20" class="w3-border"><br>
-            <label for="helixAngle">Helix Angle</label>
+            <label for="helixAngle" class="w3-left-align">Helix Angle</label>
             <input type="text" id="helixAngle" placeholder="0" class="w3-border"><br>
-            <label for="pinionShiftCoeff">Pinion Profile Shift Coefficient</label>
+            <label for="pinionShiftCoeff" class="w3-left-align">Pinion Profile Shift Coefficient</label>
             <input type="text" id="pinionShiftCoeff" placeholder="0" class="w3-border"><br>
-            <label for="wheelShiftCoeff">Wheel Profile Shift Coefficient</label>
+            <label for="wheelShiftCoeff" class="w3-left-align">Wheel Profile Shift Coefficient</label>
             <input type="text" id="wheelShiftCoeff" placeholder="0" class="w3-border"><br>
         </div>
         <button type="button" class="collapsible w3-button w3-block w3-left-align w3-theme-l4">Power</button>
@@ -78,19 +76,42 @@
         <div class="content w3-padding">
             <label for="materialSelection">Material</label>
             <select id="materialSelection" name="materialSelection" class="w3-border">
-                <optgroup label="EN8">
-                <option value="EN8.norm">EN8 - norm</option>
-                <option value="EN8.HT">EN8 - Hardened, Tempered</option>
-                <option value="EN8.SH">EN8 - Surface Hardened</option>
+                <optgroup label="Normalized low carbon steels">
+                <option value="normLowCarb">Wrought steels - Low</option>
+                <option value="normLowCarbMax">Wrought steels - High</option>
+                <option value="normLowCast">Cast steels - Low</option>
+                <option value="normLowCastMax">Cast steels - High</option>
                 </optgroup>
-                <optgroup label="EN24">
-                <option value="EN24.HT">EN24 - Hardened, Tempered</option>
-                <option value="EN24.SH">EN24 - Surface Hardened</option>
+                <optgroup label="Through hardened wrought steels">
+                <option value="thrHardWro">Carbon steels - Low</option>
+                <option value="thrHardWroMax">Carbon steels - High</option>
+                <option value="thrHardWroAlloy">Alloy steels - Low</option>
+                <option value="thrHardWroAlloyMax">Alloy steels - High</option>
                 </optgroup>
-                <option value="EN32.CH">EN32 - Case Hardened</option>
-                <option value="EN36.CH">EN36 - Case Hardened</option>
-                <option value="EN39.CH">EN39 - Case Hardened</option>
-                <option value="mildSteel.soft">Mild Steel - Soft</option>
+                <optgroup label="Through hardened cast steels">
+                <option value="thrHardCast">Carbon steels - Low</option>
+                <option value="thrHardCastMax">Carbon steels - High</option>
+                <option value="thrHardCastAlloy">Alloy steels - Low</option>
+                <option value="thrHardCastAlloyMax">Alloy steels - High</option>
+                </optgroup>
+                <optgroup label="Case hardened wrought steels">
+                <option value="caseHardWro">Case hardened wrought steels - Low</option>
+                <option value="caseHardWromax">Case hardened wrought steels - High</option>
+                </optgroup>
+                <optgroup label="Flame or induction hardened wrought and cast steels">
+                <option value="flameHardWro">Steels - Low</option>
+                <option value="flameHardWroMax">Steels - High</option>
+                </optgroup>
+                <optgroup label="Nitrided wrought steels">
+                <option value="nitWro">Nitriding steels - Low</option>
+                <option value="nitWroMax">Nitriding steels - High</option> 
+                <option value="nitWroThr">Through hardening steels - Low</option>
+                <option value="nitWroThrMax">Through hardening steels - High</option>
+                </optgroup>
+                <optgroup label="Wrought steels nitro-carburized">
+                <option value="wroNitCarb">Wrought steels nitro-carburized - Low</option>
+                <option value="wroNitCarbMax">Wrought steels nitro-carburized - High</option>
+                </optgroup>
             </select>
         </div>
         <button type="button" class="collapsible w3-button w3-block w3-left-align w3-theme-l4">Finish</button>

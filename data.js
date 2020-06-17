@@ -5,217 +5,371 @@
 //SSF = surface str fac
 //BSF = bend str fac
 
-var mildSteel = {
-    soft: {
-        UTS: 494000000,
-        SSF: 10,
-        BSF: 117,
+var normLowCarb = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 1.520,
+            bending: 0.386,
+        },
+        B: {
+            contact: 250,
+            bending: 147,
+        },
+        contact: 110,
+        bending: 110,
+    },
+}
+var normLowCarbMax = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 1.520,
+            bending: 0.386,
+        },
+        B: {
+            contact: 250,
+            bending: 147,
+        },
+        contact: 210,
+        bending: 210,
+    }
+}
+
+
+var normLowCast = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 1.143,
+            bending: 0.254,
+        },
+        B: {
+            contact: 237,
+            bending: 137,
+        },
+        contact: 140,
+        bending: 140,
+    },
+}
+
+var normLowCastMax = {
         density: 7.86e-6,
         E: 206e3,
         hardness: {
             A: {
-                contact: 1.520,
-                bending: 0.386,
+                contact: 1.143,
+                bending: 0.254,
             },
             B: {
                 contact: 250,
                 bending: 147,
             },
-            contact: 490,
-            bending: 110,
+            contact: 210,
+            bending: 210,
         }
     }
-}
 
-var EN8 = {
-    norm: {
-        UTS: 541000000,
-        SSF: 10,
-        BSF: 131,
-        density: 7.86e-6,
-        E: 206e3,
-        hardness: {
-            A: {
-                contact: 1.520,
-                bending: 0.386,
-            },
-            B: {
-                contact: 250,
-                bending: 147,
-            },
-            contact: 110,
-            bending: 110,
-        }
+var thrHardWro = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 0.838,
+            bending: 0.283,
+        },
+        B: {
+            contact: 432,
+            bending: 202,
+        },
+        contact: 135,
+        bending: 135,
     },
-    HT: {
-        UTS: 618000000,
-        SSF: 14,
-        BSF: 169,
+}
+var thrHardWroMax = {
         density: 7.86e-6,
         E: 206e3,
         hardness: {
             A: {
-                contact: 0.951,
-                bending: 0.286,
+                contact: 0.838,
+                bending: 0.283,
             },
             B: {
-                contact: 345,
-                bending: 167,
+                contact: 432,
+                bending: 202,
             },
-            contact: 130,
-            bending: 130,
-        } 
-    },
-    SH: {
-        UTS: 514000000,
-        SSF: 19,
-        BSF: 117,
-        density: 7.86e-6,
-        E: 206e3,
-        hardness: {
-            A: {
-                contact: 0.951,
-                bending: 0.286,
-            },
-            B: {
-                contact: 345,
-                bending: 167,
-            },
-            contact: 130,
-            bending: 130,
+            contact: 210,
+            bending: 210,
         }
     }
-}
 
-var EN24 = {
-    HT: {
-        UTS: 849000000,
-        SSF: 21,
-        BSF: 231,
+var thrHardWroAlloy = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 2.213,
+            bending: 0.358,
+        },
+        B: {
+            contact: 260,
+            bending: 231,
+        },
+        contact: 200,
+        bending: 200,
+    }
+}
+var thrHardWroAlloy = {
         density: 7.86e-6,
         E: 206e3,
         hardness: {
             A: {
-                contact: 0.951,
-                bending: 0.286,
+                contact: 2.213,
+                bending: 0.358,
             },
             B: {
-                contact: 345,
-                bending: 167,
+                contact: 260,
+                bending: 231,
             },
-            contact: 130,
-            bending: 130,
-        } 
-    },
-    SH: {
-        UTS: 8489000000,
-        SSF: 35,
-        BSF: 183,
-        density: 7.86e-6,
-        E: 206e3,
-        hardness: {
-            A: {
-                contact: 0.951,
-                bending: 0.286,
-            },
-            B: {
-                contact: 345,
-                bending: 167,
-            },
-            contact: 130,
-            bending: 130,
+            contact: 390,
+            bending: 390,
         }
     }
-}
 
-var EN32 = {
-    CH: {
-        UTS: 494000000,
-        SSF: 63,
-        BSF: 276,
-        density: 7.86e-6,
-        E: 206e3,
-        hardness: {
-            A: {
-                contact: 0,
-                bending: 0,
-            },
-            B: {
-                contact: 1650,
-                bending: 525,
-            },
-            contact: 660,
-            bending: 660,
-        } 
+
+var thrHardCast = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 0.951,
+            bending: 0.286,
+        },
+        B: {
+            contact: 345,
+            bending: 167,
+        },
+        contact: 130,
+        bending: 130,
+    }
+}
+var thrHardCastMax = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 0.951,
+            bending: 0.286,
+        },
+        B: {
+            contact: 345,
+            bending: 167,
+        },
+        contact: 215,
+        bending: 215,
     }
 }
 
-var EN34 = {
-    CH: {
-        UTS: 695000000,
-        SSF: 72,
-        BSF: 324,
-        density: 7.86e-6,
-        E: 206e3,
-        hardness: {
-            A: {
-                contact: 0,
-                bending: 0,
-            },
-            B: {
-                contact: 1650,
-                bending: 525,
-            },
-            contact: 660,
-            bending: 660,
-        } 
+var thrHardCastAlloy = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 1.350,
+            bending: 0.356,
+        },
+        B: {
+            contact: 356,
+            bending: 186,
+        },
+        contact: 200,
+        bending: 200,
+    }
+}
+var thrHardCastAlloyMax = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 1.350,
+            bending: 0.356,
+        },
+        B: {
+            contact: 356,
+            bending: 186,
+        },
+        contact: 360,
+        bending: 360,
     }
 }
 
-var EN36 = {
-    CH: {
-        UTS: 849000000,
-        SSF: 76,
-        BSF: 345,
-        density: 7.86e-6,
-        E: 206e3,
-        hardness: {
-            A: {
-                contact: 0,
-                bending: 0,
-            },
-            B: {
-                contact: 1650,
-                bending: 525,
-            },
-            contact: 660,
-            bending: 660,
-        } 
+var caseHardWro = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 0,
+            bending: 0,
+        },
+        B: {
+            contact: 1650,
+            bending: 525,
+        },
+        contact: 660,
+        bending: 660,
+    }
+}
+var caseHardWromax = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 0,
+            bending: 0,
+        },
+        B: {
+            contact: 1650,
+            bending: 525,
+        },
+        contact: 800,
+        bending: 800,
     }
 }
 
-var EN39 = {
-    CH: {
-        UTS: 1313000000,
-        SSF: 90,
-        BSF: 345,
-        density: 7.86e-6,
-        E: 206e3,
-        hardness: {
-            A: {
-                contact: 0,
-                bending: 0,
-            },
-            B: {
-                contact: 1650,
-                bending: 525,
-            },
-            contact: 660,
-            bending: 660,
-        } 
+var flameHardWro = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 0.505,
+            bending: 0.271,
+        },
+        B: {
+            contact: 1013,
+            bending: 237,
+        },
+        contact: 500,
+        bending: 500,
+    }
+}
+var flameHardWroMax = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 0.505,
+            bending: 0.271,
+        },
+        B: {
+            contact: 1013,
+            bending: 237,
+        },
+        contact: 615,
+        bending: 615,
     }
 }
 
+var nitWro = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 0,
+            bending: 0,
+        },
+        B: {
+            contact: 1450,
+            bending: 468,
+        },
+        contact: 650,
+        bending: 650,
+    }
+}
+var nitWroMax = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 0,
+            bending: 0,
+        },
+        B: {
+            contact: 1450,
+            bending: 468,
+        },
+        contact: 900,
+        bending: 900,
+    }
+}
+
+var nitWroThr = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 0,
+            bending: 0,
+        },
+        B: {
+            contact: 1217,
+            bending: 432,
+        },
+        contact: 450,
+        bending: 450,
+    }
+}
+var nitWroThrMax = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 0,
+            bending: 0,
+        },
+        B: {
+            contact: 1217,
+            bending: 432,
+        },
+        contact: 650,
+        bending: 650,
+    }
+}
+
+var wroNitCarb = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 0,
+            bending: 0,
+        },
+        B: {
+            contact: 950,
+            bending: 388,
+        },
+        contact: 450,
+        bending: 450,
+    }
+}
+var wroNitCarbMax = {
+    density: 7.86e-6,
+    E: 206e3,
+    hardness: {
+        A: {
+            contact: 0,
+            bending: 0,
+        },
+        B: {
+            contact: 950,
+            bending: 388,
+        },
+        contact: 650,
+        bending: 650,
+    }
+}
 
 //Module
 const wheelTeethArray = Array.from(Array(800).keys())

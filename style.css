@@ -25,6 +25,14 @@ label {
     width: 60px;
 }
 
+.b-words div {
+    width: 300px;
+}
+
+.b-nums div {
+    width: 60px;
+}
+
 .collapsible {
     outline: none;
 }
@@ -46,4 +54,9 @@ img {
     width: 100%;
     max-width: 1000px;
     height: auto;
+}
+
+.middle {
+    width: 600px;
+    margin: auto;
 }
