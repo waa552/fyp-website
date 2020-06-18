@@ -39,30 +39,36 @@ window.onload = function() {
 }
 
 function run() {
-    console.log(document.getElementById("FinishSelection").value)
     const Ka = KaGet()
     const Fy = new Array([10, 0.201],[11,0.226],[12,245],[13,0.264],[14,0.276],[15,0.289],[16,0.295],[17,0.302],[18,0.308],[19,0.314],[20,0.320],[22,0.330],[24,0.337],[26,0.344],[28,0.352],[30,0.358],[32,0.364],[34,0.370],[36,0.377],[38,0.383],[40,0.389],[45,0.399],[50,0.408],[55,0.415],[60,0.421],[65,0.425],[70,0.429],[75,0.433],[80,0.436],[90,0.442],[100,0.446],[150,0.458],[200,0.436],[300,0.471])
     const quality = fquality()
-    const material = materialGet()      
+    let material1 = materialGet()
+    let matCheck = document.getElementById("matCheck").checked
+    console.log(matCheck)
+    console.log(material1)
+    let material = materialCustom(material1)
+    console.log(material)
 
-    var profileShift = profileShiftGet()        // .pinion, .wheel
-    const angle = angleGet()                      // .pressure(.deg, .rad), .helix(.deg, .rad)
-
-    const a0 = centreDistGet()                     // .min, .max
-
-    const ratio0 = ratioFind()                     // .min, .max
-    var z = minTeethFind(angle, ratio0)   // .pinion, .wheel
+    let profileShift = profileShiftGet()            // .pinion, .wheel
+    const angle = angleGet()                        // .pressure(.deg, .rad), .helix(.deg, .rad)
+    
+    const a0 = centreDistGet()                      // .min, .max
+    
+    const ratio0 = ratioFind()                      // .min, .max
+    var z = minTeethFind(angle, ratio0)     // .pinion, .wheel
     // // var module = checkIfMod(moduleMin, moduleMax)
-
+    
     var {power, speed, torque} = powerSpeedTorqueGet()
     var power = powerGet(power, speed, torque)
     var speed = speedGet(power, speed, torque)
     var torque = torqueGet(power, speed, torque)
     var torqueWheel = torqueWheelf(torque, z)
-
-    var {a, z, module, epsil, ratio, b} = contactRatioTeeth(angle, a0, z)
+    
+    var {a, z, module, epsil, ratio, b} = contactRatioTeeth(angle, a0, z, profileShift)
+    
     var b_1 = b
-    var gearGeom = gearDims(module, z, angle, a)   // .centreDist, .centreDistWork .addendum, .dedendum, .y, .pinion(.base, .pitch, .tip, .root), .wheel(.base, .pitch, .tip, .root)
+    
+    var gearGeom = gearDims(module, z, angle, a, profileShift)   // .centreDist, .centreDistWork .addendum, .dedendum, .y, .pinion(.base, .pitch, .tip, .root), .wheel(.base, .pitch, .tip, .root)
     var tanLoad = nomTanLoad(torque, torqueWheel, gearGeom, module)
     //var module = modLims(a, z)        
     // var newModArray = moduleArray.filter(moduleGet)
@@ -71,7 +77,6 @@ function run() {
     console.log(z)
     console.log(gearGeom)
     console.log(epsil)
-    console.log(tanLoad)
     const sigma_hlim = limitContactStress(material)
     const sigma_flim = limitBendingStress(material)
     var {ffa_eff, fpb_eff} = tolerances(gearGeom, module, quality, sigma_hlim)
@@ -87,16 +92,17 @@ function run() {
     // Kfb is 4th input == 1, check if == 2.5 ish
     var sigma_fp = permissibleBendingStress(sigma_flim, module, speed)
     var sigma_hp = permissibleContactStress(sigma_hlim, speed, gearGeom)
-
+    console.log(gearGeom)
     var sigma_f = rootBendingStress(Ka, Ky, Kv, 1, epsil, sigma_f0, c_dash, fpb_eff, tanLoad, b, Kfa)
+    console.log(gearGeom)
     var sigma_h = contactStress(tanLoad, ratio, gearGeom, b, Ka, Ky, Kv, 1, Kha, angle, z, material, epsil)
     
     // var f_tnom = nomTanLoad(torque, torqueWheel, gearGeom)
     var b_0 = 0.5
-        
+    
     var sigma_f_b0 = bStress(Kfa, angle, a0, z, b_0, ratio, material, profileShift, quality, module, gearGeom, epsil, speed, tanLoad, Ka, Ky, sigma_hlim, N, c_dash, ffa_eff, fpb_eff, Fy, Kv, sigma_f0)
     var sigma_h_b0 = cStress(tanLoad, ratio, gearGeom, b_0, Ka, Ky, Kv, Kha, angle, z, material, epsil, a0, profileShift, quality, module, speed, sigma_hlim, N, c_dash, ffa_eff, fpb_eff)
-
+    
     var j = b_0
     var k = b_1
     for (let index=1; index<20; index++) {
@@ -118,11 +124,11 @@ function run() {
     var m = Math.sqrt(1/b_0)
     var n = Math.sqrt(1/b_1)
     for (let index=1; index<8; index++) {
-        var x = ((sigma_hp-sigma_h.pinion)/(sigma_h_b0.pinion-sigma_h.pinion))*(m-n)+n
+        var w = ((sigma_hp-sigma_h.pinion)/(sigma_h_b0.pinion-sigma_h.pinion))*(m-n)+n
         var m = n
-        var n = x
+        var n = w
         
-        b_h = 1/(x**2)
+        b_h = 1/(w**2)
         var sigma_h_b0 = sigma_h
         var sigma_h = cStress(tanLoad, ratio, gearGeom, b_h, Ka, Ky, Kv, Kha, angle, z, material, epsil, a0, profileShift, quality, module, speed, sigma_hlim, N, c_dash, ffa_eff, fpb_eff)
         if (sigma_h.pinion-sigma_hp<=Math.abs(sigma_hp/1000) && sigma_h.pinion <= sigma_hp) {

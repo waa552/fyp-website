@@ -51,7 +51,19 @@ function materialGet() {
     var e = document.getElementById("materialSelection")
     var material = e.options[e.selectedIndex].value
     var material = eval(material)
+    console.log(material)
     return material
+}
+
+function materialCustom(material1) {
+    let material2 = material1
+    if (document.getElementById("matCheck").checked == "true") {
+        material2.density = parseFloat(document.getElementById("matDens").value)
+        material2.E = parseFloat(document.getElementById("matE").value)
+        material2.hardness.contact = parseFloat(document.getElementById("matHard").value)
+        material2.hardness.bending = parseFloat(document.getElementById("matHard").value)
+    } 
+    return material2
 }
 
 function tolerances(gearGeom, module, quality, sigma_hlim) {
@@ -81,8 +93,8 @@ function fquality() {
 }
 
 function profileShiftGet() {
-    var pinion = parseFloat(document.getElementById("pinionShiftCoeff").value) || 0
-    var wheel = parseFloat(document.getElementById("wheelShiftCoeff").value) || 0 
+    var pinion = 0 //parseFloat(document.getElementById("pinionShiftCoeff").value) || 0
+    var wheel = 0 - pinion
     return {
         pinion: pinion,
         wheel: wheel
@@ -141,7 +153,7 @@ function centreDistCalc(module, z) {
 
 function contactRatioTeeth(angle, a0, z) {
     var {ratio, z} = ratioCheck(z)
-    var module = Math.floor(2*a0.ideal/(z.pinion+z.wheel))
+    var module = parseFloat(document.getElementById("moduleInput").value) || Math.floor(2*a0.ideal/(z.pinion+z.wheel))
     var b = 2*module*Math.PI
     var a = centreDistCalc(module, z)
 
