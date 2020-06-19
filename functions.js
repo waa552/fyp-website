@@ -48,21 +48,22 @@ function KaGet() {
 
 function materialGet() {
         // eval() is used as the only strings come from the drop down options
-    var e = document.getElementById("materialSelection")
-    var material = e.options[e.selectedIndex].value
-    var material = eval(material)
-    console.log(material)
-    return material
+    var e = document.getElementById("materialSelection").value
+    // var n = e.options[e.selectedIndex].value
+    // console.log(n)
+    var material1 = eval(e)
+        return material1
 }
 
 function materialCustom(material1) {
-    let material2 = material1
-    if (document.getElementById("matCheck").checked == "true") {
-        material2.density = parseFloat(document.getElementById("matDens").value)
-        material2.E = parseFloat(document.getElementById("matE").value)
-        material2.hardness.contact = parseFloat(document.getElementById("matHard").value)
-        material2.hardness.bending = parseFloat(document.getElementById("matHard").value)
-    } 
+    let material2 = JSON.parse(JSON.stringify(material1))
+    if (document.getElementById("matCheck").checked == true) {
+        console.log(document.getElementById("matCheck").checked)
+        material2.density = parseFloat(document.getElementById("matDens").value) || material2.density
+        material2.E = parseFloat(document.getElementById("matE").value) || material2.E
+        material2.hardness.contact = parseFloat(document.getElementById("matHard").value) || material2.hardness.contact
+        material2.hardness.bending = parseFloat(document.getElementById("matHard").value) || material2.hardness.bending
+    }
     return material2
 }
 

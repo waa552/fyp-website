@@ -43,8 +43,6 @@ function run() {
     const Fy = new Array([10, 0.201],[11,0.226],[12,245],[13,0.264],[14,0.276],[15,0.289],[16,0.295],[17,0.302],[18,0.308],[19,0.314],[20,0.320],[22,0.330],[24,0.337],[26,0.344],[28,0.352],[30,0.358],[32,0.364],[34,0.370],[36,0.377],[38,0.383],[40,0.389],[45,0.399],[50,0.408],[55,0.415],[60,0.421],[65,0.425],[70,0.429],[75,0.433],[80,0.436],[90,0.442],[100,0.446],[150,0.458],[200,0.436],[300,0.471])
     const quality = fquality()
     let material1 = materialGet()
-    let matCheck = document.getElementById("matCheck").checked
-    console.log(matCheck)
     console.log(material1)
     let material = materialCustom(material1)
     console.log(material)
@@ -140,6 +138,12 @@ function run() {
     console.log(sigma_h)
     
     var bOut = Math.max(b_f, b_h)
+
+    epsil = contactRatioFind(module, z, angle, gearGeom, a, bOut)
+    console.log(epsil)
+
+    var sigma_f = bStress(Kfa, angle, a0, z, bOut, ratio, material, profileShift, quality, module, gearGeom, epsil, speed, tanLoad, Ka, Ky, sigma_hlim, N, c_dash, ffa_eff, fpb_eff, Fy, Kv, sigma_f0)
+    var sigma_h = cStress(tanLoad, ratio, gearGeom, bOut, Ka, Ky, Kv, Kha, angle, z, material, epsil, a0, profileShift, quality, module, speed, sigma_hlim, N, c_dash, ffa_eff, fpb_eff)
 
     var pc = Math.PI*module
     var bRec = 2*pc

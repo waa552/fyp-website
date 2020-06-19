@@ -5,7 +5,7 @@
 //SSF = surface str fac
 //BSF = bend str fac
 
-var normLowCarb = {
+const normLowCarb = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -21,7 +21,7 @@ var normLowCarb = {
         bending: 110,
     },
 }
-var normLowCarbMax = {
+const normLowCarbMax = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -39,7 +39,7 @@ var normLowCarbMax = {
 }
 
 
-var normLowCast = {
+const normLowCast = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -56,7 +56,7 @@ var normLowCast = {
     },
 }
 
-var normLowCastMax = {
+const normLowCastMax = {
         density: 7.86e-6,
         E: 206e3,
         hardness: {
@@ -71,9 +71,9 @@ var normLowCastMax = {
             contact: 210,
             bending: 210,
         }
-    }
+}
 
-var thrHardWro = {
+const thrHardWro = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -89,7 +89,7 @@ var thrHardWro = {
         bending: 135,
     },
 }
-var thrHardWroMax = {
+const thrHardWroMax = {
         density: 7.86e-6,
         E: 206e3,
         hardness: {
@@ -104,9 +104,9 @@ var thrHardWroMax = {
             contact: 210,
             bending: 210,
         }
-    }
+}
 
-var thrHardWroAlloy = {
+const thrHardWroAlloy = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -122,7 +122,7 @@ var thrHardWroAlloy = {
         bending: 200,
     }
 }
-var thrHardWroAlloy = {
+const thrHardWroAlloyMax = {
         density: 7.86e-6,
         E: 206e3,
         hardness: {
@@ -137,10 +137,9 @@ var thrHardWroAlloy = {
             contact: 390,
             bending: 390,
         }
-    }
+}
 
-
-var thrHardCast = {
+const thrHardCast = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -156,7 +155,7 @@ var thrHardCast = {
         bending: 130,
     }
 }
-var thrHardCastMax = {
+const thrHardCastMax = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -173,7 +172,7 @@ var thrHardCastMax = {
     }
 }
 
-var thrHardCastAlloy = {
+const thrHardCastAlloy = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -189,7 +188,7 @@ var thrHardCastAlloy = {
         bending: 200,
     }
 }
-var thrHardCastAlloyMax = {
+const thrHardCastAlloyMax = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -206,7 +205,7 @@ var thrHardCastAlloyMax = {
     }
 }
 
-var caseHardWro = {
+const caseHardWro = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -222,7 +221,7 @@ var caseHardWro = {
         bending: 660,
     }
 }
-var caseHardWromax = {
+const caseHardWromax = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -239,7 +238,7 @@ var caseHardWromax = {
     }
 }
 
-var flameHardWro = {
+const flameHardWro = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -255,7 +254,7 @@ var flameHardWro = {
         bending: 500,
     }
 }
-var flameHardWroMax = {
+const flameHardWroMax = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -272,7 +271,7 @@ var flameHardWroMax = {
     }
 }
 
-var nitWro = {
+const nitWro = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -288,7 +287,7 @@ var nitWro = {
         bending: 650,
     }
 }
-var nitWroMax = {
+const nitWroMax = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -305,7 +304,7 @@ var nitWroMax = {
     }
 }
 
-var nitWroThr = {
+const nitWroThr = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -321,7 +320,7 @@ var nitWroThr = {
         bending: 450,
     }
 }
-var nitWroThrMax = {
+const nitWroThrMax = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -338,7 +337,7 @@ var nitWroThrMax = {
     }
 }
 
-var wroNitCarb = {
+const wroNitCarb = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
@@ -354,7 +353,7 @@ var wroNitCarb = {
         bending: 450,
     }
 }
-var wroNitCarbMax = {
+const wroNitCarbMax = {
     density: 7.86e-6,
     E: 206e3,
     hardness: {
